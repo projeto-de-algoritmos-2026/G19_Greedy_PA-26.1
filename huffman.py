@@ -65,3 +65,18 @@ def Huffman(text):
         push_heap(heap, juntar_no)
 
     return heap[0]
+
+def gerar_codigos(raiz, prefixo="", codigos=None):
+    if codigos is None:
+        codigos = {}
+    
+    if raiz:
+        # Se for folha, armazena o código
+        if raiz.char is not None:
+            codigos[raiz.char] = prefixo
+        
+        # Percorre esquerda (0) e direita (1)
+        gerar_codigos(raiz.esq, prefixo + "0", codigos)
+        gerar_codigos(raiz.dir, prefixo + "1", codigos)
+    
+    return codigos
