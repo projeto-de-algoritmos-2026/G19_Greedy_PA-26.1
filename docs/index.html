@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compressão Genômica — G19 | Algoritmos Ambiciosos</title>
+    <meta name="description"
+        content="Aplicação do algoritmo de Huffman para compressão de sequências genômicas extraídas do NCBI.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="highlight-bar"></div>
+
+    <nav>
+        <div class="nav-marca">
+            <span class="nav-marca-dot"></span>
+            G19 — Sequenciamento & Otimização
+        </div>
+        <ul class="nav-links">
+            <li><a href="#sobre">Arquitetura</a></li>
+            <li><a href="#algoritmo">Processamento</a></li>
+            <li><a href="#demo">Console</a></li>
+            <li><a href="#codigo">Módulos</a></li>
+            <li><a href="#instalacao">Ambiente</a></li>
+            <li><a href="https://github.com/projeto-de-algoritmos-2026/G19_Greedy_PA-26.1" target="_blank"
+                    class="nav-cta">Repositório</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-badge">Bioinformática &middot; Algoritmos Ambiciosos</div>
+        <h1>
+            Entropia Genômica e<br>
+            <span class="destaque">Compressão de DNA</span>
+        </h1>
+        <p class="hero-desc">
+            Redução do espaço de armazenamento de sequências do Hantavirus extraídas da base Nucleotide (NCBI).
+            O pipeline de processamento aplica a heurística ambiciosa de Huffman baseada no viés de uso de códons.
+        </p>
+        <div class="hero-acoes">
+            <a href="#demo" class="btn-primario">Acessar Console</a>
+            <a href="#algoritmo" class="btn-secundario">Detalhes do Pipeline</a>
+        </div>
+    </div>
+
+    <section id="sobre">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Fundamentação</span>
+            <h2 class="secao-titulo">Arquitetura do Problema</h2>
+            <p class="secao-desc">
+                Sequências puras exigem 2 bits por nucleotídeo de forma contínua. Modelar a fita de DNA em blocos
+                biológicos
+                permite explorar redundâncias estruturais e minimizar o custo de persistência.
+            </p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card tema-dna fade-in">
+                <div class="card-icone">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                        <line x1="4" y1="22" x2="4" y2="15" />
+                    </svg>
+                </div>
+                <h3>Integração E-utilities</h3>
+                <p>Consumo direto da base científica NCBI. O motor extrai amostras FASTA brutas, garantindo que o
+                    algoritmo lide com assinaturas genômicas reais em tempo de execução.</p>
+            </div>
+            <div class="card tema-data fade-in">
+                <div class="card-icone">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                        <polyline points="2 17 12 22 22 17" />
+                        <polyline points="2 12 12 17 22 12" />
+                    </svg>
+                </div>
+                <h3>Fragmentação por K-mers</h3>
+                <p>O vetor linear é transformado em matrizes de k-mers de dimensão 3. Esse mapeamento imita a tradução
+                    ribossômica e isola as frequências de cada trinca.</p>
+            </div>
+            <div class="card tema-algo fade-in">
+                <div class="card-icone">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 16 16 12 12 8" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
+                    </svg>
+                </div>
+                <h3>Heurística de Huffman</h3>
+                <p>Geração de árvore binária bottom-up por intermédio de fila de prioridades (Min-Heap). As trincas com
+                    maior taxa de repetição recebem roteamentos binários mais curtos.</p>
+            </div>
+            <div class="card tema-opt fade-in">
+                <div class="card-icone">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
+                        <path d="M22 12A10 10 0 0 0 12 2v10z" />
+                    </svg>
+                </div>
+                <h3>Métricas de Eficiência</h3>
+                <p>Validação quantitativa da compressão. O custo do vocabulário gerado dinamicamente é contrastado com a
+                    modelagem de hardware estática de 2 bits por canal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="algoritmo">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Processamento</span>
+            <h2 class="secao-titulo">Pipeline de Transformação</h2>
+            <p class="secao-desc">
+                Etapas lógicas empregadas para desconstruir o vetor de dados e reagrupá-lo de forma eficiente.
+            </p>
+        </div>
+
+        <div class="algoritmo-passos">
+            <div class="passo fade-in">
+                <div class="passo-numero num-dna">01</div>
+                <div class="passo-corpo">
+                    <h3>Aquisição de Matéria-Prima</h3>
+                    <p>O endpoint REST do NCBI retorna um bloco textual padrão FASTA. O cabeçalho de identificação é
+                        suprimido e a quebra de linhas normalizada, restando um vetor unidimensional de caracteres.</p>
+                </div>
+            </div>
+            <div class="passo fade-in">
+                <div class="passo-numero num-data">02</div>
+                <div class="passo-corpo">
+                    <h3>Construção do Histograma</h3>
+                    <p>O algoritmo executa uma varredura sequencial alocando blocos de 3 caracteres. Uma tabela hash
+                        registra a cardinalidade de cada códon distinto observado.</p>
+                </div>
+            </div>
+            <div class="passo fade-in">
+                <div class="passo-numero num-algo">03</div>
+                <div class="passo-corpo">
+                    <h3>Ordenação via Min-Heap</h3>
+                    <p>Cada entrada do histograma é convertida em um nó isolado e inserida em um heap binário focado na
+                        frequência. O enraizamento respeita a complexidade O(log N) por inserção.</p>
+                </div>
+            </div>
+            <div class="passo fade-in">
+                <div class="passo-numero num-opt">04</div>
+                <div class="passo-corpo">
+                    <h3>Mesclagem ambiciosa</h3>
+                    <p>A iteração consome perpetuamente os dois nós de menor massa, gerando um super-nó agregador que
+                        retorna ao heap. A convergência final produz a raiz única da codificação de Huffman.</p>
+                </div>
+            </div>
+            <div class="passo fade-in">
+                <div class="passo-numero num-dna">05</div>
+                <div class="passo-corpo">
+                    <h3>Varredura de Roteamento</h3>
+                    <p>Uma navegação DFS pela árvore final estipula o prefixo binário de cada folha. Movimentos à
+                        esquerda anexam o bit 0, enquanto derivações à direita anexam o bit 1.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Terminal</span>
+            <h2 class="secao-titulo">Console Dinâmico</h2>
+            <p class="secao-desc">
+                Ambiente isolado em JavaScript que replica as operações em Python. Toda comunicação HTTP e ordenação
+                estrutural ocorre localmente no cliente.
+            </p>
+        </div>
+
+        <div class="demo-container fade-in">
+            <div class="demo-controles">
+                <div class="input-grupo">
+                    <label for="accession-input">Identificador Genômico (NCBI Accession ID)</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="accession-input" value="NC_003466" autocomplete="off">
+                        <button id="btn-executar" class="btn-primario">Iniciar Compressão</button>
+                    </div>
+                </div>
+                <div class="demo-atalhos">
+                    Fragmentos Sugeridos:
+                    <span class="atalho" data-acc="NC_003466">Andes Segment S</span> &nbsp;
+                    <span class="atalho" data-acc="NC_003467">Andes Segment M</span> &nbsp;
+                    <span class="atalho" data-acc="NC_003468">Andes Segment L</span>
+                </div>
+            </div>
+
+            <div class="terminal" id="terminal-output">
+                <div class="terminal-header">
+                    <span class="dot" style="background:var(--brand-err);"></span>
+                    <span class="dot" style="background:var(--brand-opt);"></span>
+                    <span class="dot" style="background:var(--brand-dna);"></span>
+                    <span
+                        style="margin-left:12px; color:var(--muted); font-size:12px; font-family:'Fira Code', monospace;">StdOut</span>
+                </div>
+                <div class="terminal-body" id="terminal-linhas">
+                    <div class="linha" style="color:var(--muted);">Processador ocioso. Aguardando input...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="codigo">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Código-fonte</span>
+            <h2 class="secao-titulo">Módulos Internos</h2>
+            <p class="secao-desc">
+                Desacoplamento lógico garantindo manutenção isolada para requisições de rede e algoritmos de base.
+            </p>
+        </div>
+
+        <div data-tabs>
+            <div class="tabs">
+                <button class="tab ativo" data-tab="huffman">huffman.py</button>
+                <button class="tab" data-tab="ncbi">ncbi_api.py</button>
+                <button class="tab" data-tab="main">main.py</button>
+            </div>
+
+            <div class="tab-conteudo ativo" data-tab="huffman">
+                <div class="bloco-codigo fade-in">
+                    <div class="bloco-codigo-header">
+                        <span class="bloco-codigo-nome">src/huffman.py</span>
+                        <span class="bloco-codigo-lang">Python</span>
+                    </div>
+                    <pre><code><span class="keyword">class</span> <span class="fn-name">No</span>:
+    <span class="keyword">def</span> <span class="fn-name">__init__</span>(<span class="param">self</span>, <span class="param">char</span>, <span class="param">freq</span>):
+        <span class="param">self</span>.char = char
+        <span class="param">self</span>.freq = freq
+        <span class="param">self</span>.esq = <span class="builtin">None</span>
+        <span class="param">self</span>.dir = <span class="builtin">None</span>
+
+    <span class="keyword">def</span> <span class="fn-name">__lt__</span>(<span class="param">self</span>, <span class="param">other</span>):
+        <span class="keyword">return</span> <span class="param">self</span>.freq < other.freq
+
+<span class="keyword">def</span> <span class="fn-name">Huffman</span>(<span class="param">text</span>):
+    freq = {}
+    <span class="keyword">for</span> letra <span class="keyword">in</span> text:
+        freq[letra] = freq.<span class="builtin">get</span>(letra, <span class="builtin">0</span>) + <span class="builtin">1</span>
+
+    heap = []
+    <span class="keyword">for</span> caractere, frequencia <span class="keyword">in</span> freq.items():
+        <span class="fn-name">push_heap</span>(heap, No(caractere, frequencia))
+
+    <span class="keyword">while</span> <span class="builtin">len</span>(heap) > <span class="builtin">1</span>:
+        esq = <span class="fn-name">pop_heap</span>(heap)
+        dir = <span class="fn-name">pop_heap</span>(heap)
+
+        juntar_no = No(<span class="builtin">None</span>, esq.freq + dir.freq)
+        juntar_no.esq = esq
+        juntar_no.dir = dir
+
+        <span class="fn-name">push_heap</span>(heap, juntar_no)
+
+    <span class="keyword">return</span> heap[<span class="builtin">0</span>]</code></pre>
+                </div>
+            </div>
+
+            <div class="tab-conteudo" data-tab="ncbi">
+                <div class="bloco-codigo fade-in">
+                    <div class="bloco-codigo-header">
+                        <span class="bloco-codigo-nome">src/ncbi_api.py</span>
+                        <span class="bloco-codigo-lang">Python</span>
+                    </div>
+                    <pre><code><span class="keyword">import</span> requests
+
+<span class="keyword">def</span> <span class="fn-name">get_dna_sequence</span>(<span class="param">accession</span>):
+    url = <span class="string">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"</span>
+    params = {
+        <span class="string">"db"</span>: <span class="string">"nuccore"</span>,
+        <span class="string">"id"</span>: accession,
+        <span class="string">"rettype"</span>: <span class="string">"fasta"</span>,
+        <span class="string">"retmode"</span>: <span class="string">"text"</span>
+    }
+    
+    <span class="keyword">try</span>:
+        response = requests.<span class="fn-name">get</span>(url, params=params)
+        response.<span class="fn-name">raise_for_status</span>()
+        
+        lines = response.text.<span class="builtin">strip</span>().<span class="builtin">split</span>(<span class="string">'\n'</span>)
+        sequence = <span class="string">""</span>.<span class="builtin">join</span>(line.<span class="builtin">strip</span>() <span class="keyword">for</span> line <span class="keyword">in</span> lines <span class="keyword">if not</span> line.<span class="builtin">startswith</span>(<span class="string">'>'</span>))
+        
+        <span class="keyword">return</span> sequence
+    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:
+        <span class="keyword">return</span> <span class="builtin">None</span></code></pre>
+                </div>
+            </div>
+
+            <div class="tab-conteudo" data-tab="main">
+                <div class="bloco-codigo fade-in">
+                    <div class="bloco-codigo-header">
+                        <span class="bloco-codigo-nome">src/main.py</span>
+                        <span class="bloco-codigo-lang">Python</span>
+                    </div>
+                    <pre><code><span class="keyword">from</span> ncbi_api <span class="keyword">import</span> get_dna_sequence
+<span class="keyword">from</span> huffman <span class="keyword">import</span> Huffman, gerar_codigos
+<span class="keyword">from</span> collections <span class="keyword">import</span> Counter
+
+<span class="keyword">def</span> <span class="fn-name">processar_virus</span>(<span class="param">nome</span>, <span class="param">accession</span>):
+    dna = <span class="fn-name">get_dna_sequence</span>(accession)
+    <span class="keyword">if not</span> dna: <span class="keyword">return</span>
+
+    codons = [dna[i:i+<span class="builtin">3</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="builtin">0</span>, <span class="builtin">len</span>(dna) - <span class="builtin">2</span>, <span class="builtin">3</span>)]
+    frequencias = <span class="fn-name">Counter</span>(codons)
+    
+    raiz = <span class="fn-name">Huffman</span>(codons)
+    tabela_codigos = <span class="fn-name">gerar_codigos</span>(raiz)
+    
+    total_bits_huffman = <span class="builtin">sum</span>(frequencias[c] * <span class="builtin">len</span>(tabela_codigos[c]) <span class="keyword">for</span> c <span class="keyword">in</span> frequencias)
+    total_bits_original = <span class="builtin">len</span>(dna) * <span class="builtin">2</span> 
+    
+    taxa = (<span class="builtin">1</span> - (total_bits_huffman / total_bits_original)) * <span class="builtin">100</span>
+
+    <span class="builtin">print</span>(<span class="string">f"Taxa de compressão: {taxa:.2f}%"</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="instalacao">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Implantação</span>
+            <h2 class="secao-titulo">Ambiente Operacional</h2>
+            <p class="secao-desc">
+                Procedimento padrão de inicialização e gestão de dependências.
+            </p>
+        </div>
+
+        <div class="instalacao-bloco fade-in">
+            <div class="instalacao-passo">
+                <div class="instalacao-num">1</div>
+                <div>
+                    <h4>Clonagem</h4>
+                    <p>Download do repositório remoto para manipulação local.</p>
+                    <div class="cmd"
+                        data-cmd="git clone https://github.com/projeto-de-algoritmos-2026/G19_Greedy_PA-26.1.git">
+                        git clone https://github.com/projeto-de-algoritmos-2026/G19_Greedy_PA-26.1.git
+                        <span class="copiar-msg">Copiado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="instalacao-passo">
+                <div class="instalacao-num">2</div>
+                <div>
+                    <h4>Isolamento</h4>
+                    <p>Criação do ambiente virtual evitando conflito de pacotes do sistema base.</p>
+                    <div class="cmd" data-cmd="python -m venv venv">
+                        python -m venv venv
+                        <span class="copiar-msg">Copiado</span>
+                    </div>
+                    <div class="cmd" data-cmd="venv\Scripts\activate">
+                        venv\Scripts\activate
+                        <span class="copiar-msg">Copiado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="instalacao-passo">
+                <div class="instalacao-num">3</div>
+                <div>
+                    <h4>Build & Execução</h4>
+                    <p>Instalação dos conectores HTTP e inicialização do driver principal.</p>
+                    <div class="cmd" data-cmd="pip install -r requirements.txt">
+                        pip install -r requirements.txt
+                        <span class="copiar-msg">Copiado</span>
+                    </div>
+                    <div class="cmd" data-cmd="python src/main.py">
+                        python src/main.py
+                        <span class="copiar-msg">Copiado</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="equipe">
+        <div class="secao-header fade-in">
+            <span class="secao-tag">Engenharia</span>
+            <h2 class="secao-titulo">Desenvolvedores</h2>
+            <p class="secao-desc">
+                Estrutura acadêmica orientada pelo departamento de Ciência da Computação (UnB).
+            </p>
+        </div>
+
+        <div class="equipe-grid">
+            <div class="membro-card fade-in">
+                <div class="membro-avatar" style="background: rgba(16, 185, 129, 0.2);">A</div>
+                <div>
+                    <div class="membro-nome">Artur Mendonça Arruda</div>
+                    <div class="membro-matricula">231033737</div>
+                </div>
+            </div>
+            <div class="membro-card fade-in">
+                <div class="membro-avatar" style="background: rgba(14, 165, 233, 0.2); color: var(--brand-data);">L
+                </div>
+                <div>
+                    <div class="membro-nome">Lucas Mendonça Arruda</div>
+                    <div class="membro-matricula">231035464</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Grupo 19 &middot; Otimização Genômica &middot; Universidade de Brasília</p>
+        <p style="margin-top:12px;">
+            <a href="https://github.com/projeto-de-algoritmos-2026/G19_Greedy_PA-26.1" target="_blank">Repositório
+                Fonte</a>
+        </p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
