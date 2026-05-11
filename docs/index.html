@@ -124,41 +124,36 @@
             <div class="passo fade-in">
                 <div class="passo-numero num-dna">01</div>
                 <div class="passo-corpo">
-                    <h3>Aquisição de Matéria-Prima</h3>
-                    <p>O endpoint REST do NCBI retorna um bloco textual padrão FASTA. O cabeçalho de identificação é
-                        suprimido e a quebra de linhas normalizada, restando um vetor unidimensional de caracteres.</p>
+                    <h3>Coleta de dados</h3>
+                    <p>O programa puxa os dados de uma API da NCBI.</p>
                 </div>
             </div>
             <div class="passo fade-in">
                 <div class="passo-numero num-data">02</div>
                 <div class="passo-corpo">
-                    <h3>Construção do Histograma</h3>
-                    <p>O algoritmo executa uma varredura sequencial alocando blocos de 3 caracteres. Uma tabela hash
-                        registra a cardinalidade de cada códon distinto observado.</p>
+                    <h3>Contagem de códons</h3>
+                    <p>O código divide a sequência de DNA em grupos de 3 letras e usa um dicionário para contar quantas vezes cada um desses códons aparece no texto original.</p>
                 </div>
             </div>
             <div class="passo fade-in">
                 <div class="passo-numero num-algo">03</div>
                 <div class="passo-corpo">
-                    <h3>Ordenação via Min-Heap</h3>
-                    <p>Cada entrada do histograma é convertida em um nó isolado e inserida em um heap binário focado na
-                        frequência. O enraizamento respeita a complexidade O(log N) por inserção.</p>
+                    <h3>Criação da árvore via Min-Heap</h3>
+                    <p>Depois de contar, o programa organiza os resultados do mais frequente para o menos frequente para construir a árvore de Huffman.</p>
                 </div>
             </div>
             <div class="passo fade-in">
                 <div class="passo-numero num-opt">04</div>
                 <div class="passo-corpo">
-                    <h3>Mesclagem ambiciosa</h3>
-                    <p>A iteração consome perpetuamente os dois nós de menor massa, gerando um super-nó agregador que
-                        retorna ao heap. A convergência final produz a raiz única da codificação de Huffman.</p>
+                    <h3>Mesclagem</h3>
+                    <p>O algoritmo pega os dois menores valores do Heap e os une para formar um novo nó. Esse processo se repete até que todos os códons estejam unidos em uma única árvore.</p>
                 </div>
             </div>
             <div class="passo fade-in">
                 <div class="passo-numero num-dna">05</div>
                 <div class="passo-corpo">
                     <h3>Varredura de Roteamento</h3>
-                    <p>Uma navegação DFS pela árvore final estipula o prefixo binário de cada folha. Movimentos à
-                        esquerda anexam o bit 0, enquanto derivações à direita anexam o bit 1.</p>
+                    <p>Com a árvore pronta, o programa percorre os caminhos: ir para a esquerda adiciona '0' e para a direita adiciona '1'. Assim, cada códon ganha seu novo código binário reduzido.</p>
                 </div>
             </div>
         </div>
@@ -341,9 +336,6 @@
         <div class="secao-header fade-in">
             <span class="secao-tag">Engenharia</span>
             <h2 class="secao-titulo">Desenvolvedores</h2>
-            <p class="secao-desc">
-                Estrutura acadêmica orientada pelo departamento de Ciência da Computação (UnB).
-            </p>
         </div>
 
         <div class="equipe-grid">
