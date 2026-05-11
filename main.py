@@ -13,7 +13,7 @@ def processar_virus(nome, accession):
     # Dividir em K-mers de tamanho 3 (Códons)
     codons = [dna[i:i+3] for i in range(0, len(dna) - 2, 3)]
     
-    # Calcular frequências
+    # Calcular frequências dos códons
     frequencias = Counter(codons)
     
     # Criar árvore de Huffman
@@ -33,7 +33,7 @@ def processar_virus(nome, accession):
     print(f"Taxa de compressão:             {taxa:.2f}%")
     
     # Top 3 códons mais frequentes
-    print("\nTop 3 Códons (Codon Usage Bias):")
+    print("\nTop 3 Códons:")
     for codon, freq in frequencias.most_common(3):
         print(f"  {codon}: {freq} ocorrências (Código: {tabela_codigos[codon]})")
 

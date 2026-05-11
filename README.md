@@ -51,16 +51,21 @@ Ao executar o programa, o sistema realiza as seguintes etapas:
 ## Screenshots
 
 
-![Código do Huffman]()
+![Código do Huffman](/assets/huffman.png)
 
 
-![Código da Heap]()
+![Código da Heap](/assets/heap.png)
 
 
-![Interface do sistema]()
+![Interface do sistema](/assets/tela.png)
 
+O terminal exibe o resultado do processamento de cada segmento do vírus:
 
-
+* **ID:** Registro oficial do DNA no banco de dados (NCBI).
+* **FIXO:** O tamanho padrão do DNA sem compressão
+* **HUFFMAN:** O novo tamanho após a compressão.
+* **Taxa de compressão (%):** Quanto espaço foi economizado.
+* **Top:** Os 3 códons mais comuns e seus novos códigos reduzidos.
 
 ## Instalação
 
