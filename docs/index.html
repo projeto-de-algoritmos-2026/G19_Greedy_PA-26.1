@@ -22,7 +22,7 @@
         <ul class="nav-links">
             <li><a href="#sobre">Arquitetura</a></li>
             <li><a href="#algoritmo">Processamento</a></li>
-            <li><a href="#demo">Console</a></li>
+
             <li><a href="#codigo">Módulos</a></li>
             <li><a href="#instalacao">Ambiente</a></li>
             <li><a href="https://github.com/projeto-de-algoritmos-2026/G19_Greedy_PA-26.1" target="_blank"
@@ -41,8 +41,8 @@
             O pipeline de processamento aplica a heurística ambiciosa de Huffman baseada no viés de uso de códons.
         </p>
         <div class="hero-acoes">
-            <a href="#demo" class="btn-primario">Acessar Console</a>
-            <a href="#algoritmo" class="btn-secundario">Detalhes do Pipeline</a>
+            <a href="#algoritmo" class="btn-primario">Detalhes do Pipeline</a>
+            <a href="#codigo" class="btn-secundario">Ver Código</a>
         </div>
     </div>
 
@@ -164,47 +164,7 @@
         </div>
     </section>
 
-    <section id="demo">
-        <div class="secao-header fade-in">
-            <span class="secao-tag">Terminal</span>
-            <h2 class="secao-titulo">Console Dinâmico</h2>
-            <p class="secao-desc">
-                Ambiente isolado em JavaScript que replica as operações em Python. Toda comunicação HTTP e ordenação
-                estrutural ocorre localmente no cliente.
-            </p>
-        </div>
 
-        <div class="demo-container fade-in">
-            <div class="demo-controles">
-                <div class="input-grupo">
-                    <label for="accession-input">Identificador Genômico (NCBI Accession ID)</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="accession-input" value="NC_003466" autocomplete="off">
-                        <button id="btn-executar" class="btn-primario">Iniciar Compressão</button>
-                    </div>
-                </div>
-                <div class="demo-atalhos">
-                    Fragmentos Sugeridos:
-                    <span class="atalho" data-acc="NC_003466">Andes Segment S</span> &nbsp;
-                    <span class="atalho" data-acc="NC_003467">Andes Segment M</span> &nbsp;
-                    <span class="atalho" data-acc="NC_003468">Andes Segment L</span>
-                </div>
-            </div>
-
-            <div class="terminal" id="terminal-output">
-                <div class="terminal-header">
-                    <span class="dot" style="background:var(--brand-err);"></span>
-                    <span class="dot" style="background:var(--brand-opt);"></span>
-                    <span class="dot" style="background:var(--brand-dna);"></span>
-                    <span
-                        style="margin-left:12px; color:var(--muted); font-size:12px; font-family:'Fira Code', monospace;">StdOut</span>
-                </div>
-                <div class="terminal-body" id="terminal-linhas">
-                    <div class="linha" style="color:var(--muted);">Processador ocioso. Aguardando input...</div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section id="codigo">
         <div class="secao-header fade-in">
