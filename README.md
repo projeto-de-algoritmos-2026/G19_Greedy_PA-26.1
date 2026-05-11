@@ -76,15 +76,15 @@ Pré-requisitos:
 - pip
 
 ```bash
-pip install requests
+pip install -r requirements.txt
 ```
 
 ou para ambiente virtual
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-venv\Scripts\activate
-pip3 pip install requests
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+pip install -r requirements.txt
 ```
 ## Uso
 
