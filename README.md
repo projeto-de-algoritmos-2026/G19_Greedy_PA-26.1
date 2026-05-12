@@ -18,6 +18,8 @@ Conteúdo da Disciplina: Algoritmos Ambiciosos (greedy)
 
 [![Assista ao vídeo](https://img.youtube.com/vi/Bb1fvHPW-wM/0.jpg)](https://www.youtube.com/watch?v=Bb1fvHPW-wM)
 
+[Clique aqui para assistir o vídeo de apresentação](https://youtu.be/Bb1fvHPW-wM)
+
 ## Sobre
 
 Este projeto tem como objetivo usar o algoritmo de huffman em sequências de DNA de vírus, extraídas em tempo real da base de dados do NCBI.
