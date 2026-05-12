@@ -14,6 +14,10 @@ Conteúdo da Disciplina: Algoritmos Ambiciosos (greedy)
 
 ---
 
+## Vídeo
+
+[![Assista ao vídeo](https://img.youtube.com/vi/Bb1fvHPW-wM/0.jpg)](https://www.youtube.com/watch?v=Bb1fvHPW-wM)
+
 ## Sobre
 
 Este projeto tem como objetivo usar o algoritmo de huffman em sequências de DNA de vírus, extraídas em tempo real da base de dados do NCBI.
@@ -41,11 +45,6 @@ Ao executar o programa, o sistema realiza as seguintes etapas:
 2. **Mapeamento de Códons:** A sequência é segmentada em K-mers de tamanho 3 (códons) para análise de frequência.
 3. **Geração da Árvore:** O algoritmo de Huffman cria uma árvore binária onde os códons mais frequentes ficam posicionados mais próximos da raiz. Isso garante que eles recebam os caminhos mais curtos, precisando menos bits para representar, enquanto os códons raros descem para os níveis mais profundos representand (mais bits).
 4. **Relatório de Saída:** O programa exibe a comparação de tamanho entre o formato original (2 bits por base) e o formato comprimido, calculando a taxa de compressão e listando os códons mais frequentes.
-
-
-## Vídeo
-
-[Link Vídeo]()
 
 
 ## Screenshots
